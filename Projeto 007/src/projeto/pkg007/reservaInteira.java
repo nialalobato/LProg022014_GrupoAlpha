@@ -2,7 +2,7 @@
 package projeto.pkg007;
 
 
-public class reservaInteira {
+public class Ho {
   
     public void reservaInteira (int = 500 )
 }
