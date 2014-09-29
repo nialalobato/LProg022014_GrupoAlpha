@@ -16,6 +16,7 @@ public class Quarto {
     private int numero_quarto;
     private String tipo_quarto;
     private Float valor_quarto;
+    private String status;
 
     public Quarto() {
     }
@@ -82,4 +83,26 @@ public class Quarto {
         this.valor_quarto = valor_quarto;
     }
     
+    
+    public void arrumar_quarto(){
+    	
+    }
+    
+    public void alugar(){
+    	
+    }
+    
+    public void liberar(){
+    	
+    }
+    
 }
+
+
+
+
+
+
+
+
+
