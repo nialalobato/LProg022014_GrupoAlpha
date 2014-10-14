@@ -1,3 +1,4 @@
 /Projeto 007/build/
 /target/
 .*
+*.class
