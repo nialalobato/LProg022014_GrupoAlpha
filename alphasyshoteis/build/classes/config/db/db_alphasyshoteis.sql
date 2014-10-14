@@ -2,13 +2,13 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
 
-CREATE SCHEMA IF NOT EXISTS `db_alphasyshoteis` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
-USE `db_alphasyshoteis` ;
+CREATE SCHEMA IF NOT EXISTS `dbalphahoteis` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
+USE `dbalphahoteis` ;
 
 -- -----------------------------------------------------
--- Table `db_alphasyshoteis`.`cliente`
+-- Table `dbalphahoteis`.`cliente`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `db_alphasyshoteis`.`cliente` (
+CREATE  TABLE IF NOT EXISTS `dbalphahoteis`.`cliente` (
   `id_cliente` INT NOT NULL AUTO_INCREMENT ,
   `nome` VARCHAR(255) NULL ,
   `sexo` VARCHAR(1) NULL ,
@@ -27,9 +27,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `db_alphasyshoteis`.`quarto`
+-- Table `dbalphahoteis`.`quarto`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `db_alphasyshoteis`.`quarto` (
+CREATE  TABLE IF NOT EXISTS `dbalphahoteis`.`quarto` (
   `id_quarto` INT NOT NULL AUTO_INCREMENT ,
   `numero_quarto` INT NULL ,
   `tipo_quarto` VARCHAR(50) NULL ,
@@ -39,9 +39,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `db_alphasyshoteis`.`produto`
+-- Table `dbalphahoteis`.`produto`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `db_alphasyshoteis`.`produto` (
+CREATE  TABLE IF NOT EXISTS `dbalphahoteis`.`produto` (
   `id_produto` INT NOT NULL ,
   `cod_produto` INT NULL ,
   `nome_produto` VARCHAR(255) NULL ,
@@ -52,9 +52,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `db_alphasyshoteis`.`hospedagem`
+-- Table `dbalphahoteis`.`hospedagem`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `db_alphasyshoteis`.`hospedagem` (
+CREATE  TABLE IF NOT EXISTS `dbalphahoteis`.`hospedagem` (
   `id_hospedagem` INT NOT NULL AUTO_INCREMENT ,
   `id_cliente` INT NOT NULL ,
   `id_quarto` INT NOT NULL ,
@@ -70,21 +70,21 @@ CREATE  TABLE IF NOT EXISTS `db_alphasyshoteis`.`hospedagem` (
   INDEX `fk_cliente_has_quarto_cliente` (`id_cliente` ASC) ,
   CONSTRAINT `fk_cliente_has_quarto_cliente`
     FOREIGN KEY (`id_cliente` )
-    REFERENCES `db_alphasyshoteis`.`cliente` (`id_cliente` )
+    REFERENCES `dbalphahoteis`.`cliente` (`id_cliente` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_cliente_has_quarto_quarto1`
     FOREIGN KEY (`id_quarto` )
-    REFERENCES `db_alphasyshoteis`.`quarto` (`id_quarto` )
+    REFERENCES `dbalphahoteis`.`quarto` (`id_quarto` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `db_alphasyshoteis`.`servico_agregado`
+-- Table `dbalphahoteis`.`servico_agregado`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `db_alphasyshoteis`.`servico_agregado` (
+CREATE  TABLE IF NOT EXISTS `dbalphahoteis`.`servico_agregado` (
   `id_servico` INT NOT NULL AUTO_INCREMENT ,
   `id_produto` INT NOT NULL ,
   `id_hospedagem` INT NOT NULL ,
@@ -93,12 +93,12 @@ CREATE  TABLE IF NOT EXISTS `db_alphasyshoteis`.`servico_agregado` (
   INDEX `fk_servico_agregado_cliente_has_quarto1` (`id_hospedagem` ASC) ,
   CONSTRAINT `fk_servico_agregado_produto1`
     FOREIGN KEY (`id_produto` )
-    REFERENCES `db_alphasyshoteis`.`produto` (`id_produto` )
+    REFERENCES `dbalphahoteis`.`produto` (`id_produto` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_servico_agregado_cliente_has_quarto1`
     FOREIGN KEY (`id_hospedagem` )
-    REFERENCES `db_alphasyshoteis`.`hospedagem` (`id_hospedagem` )
+    REFERENCES `dbalphahoteis`.`hospedagem` (`id_hospedagem` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

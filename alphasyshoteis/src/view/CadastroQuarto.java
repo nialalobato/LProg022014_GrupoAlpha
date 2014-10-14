@@ -6,6 +6,7 @@
 
 package view;
 
+import controle.GestorBanco;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -207,34 +208,8 @@ public class CadastroQuarto extends javax.swing.JDialog {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         try {
-            // TODO add your handling code here:
-            Class.forName("com.mysql.jdbc.Driver");           
-            
-            //variavel
-            Connection con;
-            
-            //conexo com o banco
-            con = DriverManager.getConnection("jdbc:mysql://localhost/db_alphasyshoteis", "root", "");
-            
-            //string que inseri no banco
-            String query = "INSERT INTO quarto (numero_quarto, tipo_quarto, valor_quarto) VALUES (?,?,?)";
-            
-            //cria o comando
-            PreparedStatement stmt = con.prepareStatement(query);
-            
-            //seta os valores na string de insercao
-            stmt.setString(1, jTextField1.getText());
-            stmt.setString(2, jTextField2.getText());
-            stmt.setString(3, jTextField3.getText());               
-            
-            //executa o comando no banco de dados
-            stmt.executeUpdate();
-            
-            //fecha comando e conexao
-            stmt.close();
-            con.close();
-            
-            
+            GestorBanco bd = new GestorBanco();
+            bd.InserirQuarto(jTextField1.getText(), jTextField2.getText(), jTextField3.getText());
         } catch (ClassNotFoundException ex) {
             System.out.println("Não foi possível encontrar a class");
         } catch (SQLException e){

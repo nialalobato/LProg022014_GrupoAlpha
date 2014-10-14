@@ -1,4 +1,4 @@
-package alphasyshoteis;
+package modelo;
 
 public class Standard extends Quarto {
 

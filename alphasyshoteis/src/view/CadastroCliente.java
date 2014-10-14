@@ -6,6 +6,7 @@
 
 package view;
 
+import controle.GestorBanco;
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
@@ -349,48 +350,13 @@ public class CadastroCliente extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        GestorBanco bd = new GestorBanco();
         try {
-            // TODO add your handling code here:
-            Class.forName("com.mysql.jdbc.Driver");           
-            
-            //variavel
-            Connection con;
-            
-            //conexo com o banco
-            con = DriverManager.getConnection("jdbc:mysql://localhost/db_alphasyshoteis", "root", "");
-            
-            //string que inseri no banco
-            String query = "INSERT INTO cliente (nome, sexo, data_nascimento, cpf, rg, email, telefone, celular, endereco, bairro, cidade, uf) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
-            
-            //cria o comando
-            PreparedStatement stmt = con.prepareStatement(query);
-            
-            //seta os valores na string de insercao
-            stmt.setString(1, jTextField1.getText());
-            stmt.setString(2, jTextField2.getText());
-            stmt.setString(3, jTextField3.getText());
-            stmt.setString(4, jTextField4.getText());
-            stmt.setString(5, jTextField5.getText());
-            stmt.setString(6, jTextField6.getText());
-            stmt.setString(7, jTextField7.getText());
-            stmt.setString(8, jTextField8.getText());
-            stmt.setString(9, jTextField9.getText());
-            stmt.setString(10, jTextField10.getText());
-            stmt.setString(11, jTextField11.getText());
-            stmt.setString(12, jTextField12.getText());    
-            
-            //executa o comando no banco de dados
-            stmt.executeUpdate();
-            
-            //fecha comando e conexao
-            stmt.close();
-            con.close();
-            
-            
+            bd.inserirCliente(jTextField1.getText(), jTextField2.getText(), jTextField3.getText(), jTextField4.getText(), jTextField5.getText(), jTextField6.getText(), jTextField7.getText(), jTextField8.getText(), jTextField9.getText(), jTextField10.getText(), jTextField11.getText(), jTextField12.getText());
         } catch (ClassNotFoundException ex) {
-            System.out.println("Não foi possível encontrar a class");
-        } catch (SQLException e){
-            System.out.println("Ocorreu um erro de sql");
+            Logger.getLogger(CadastroCliente.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(CadastroCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }//GEN-LAST:event_jButton1ActionPerformed

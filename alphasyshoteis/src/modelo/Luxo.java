@@ -1,4 +1,4 @@
-package alphasyshoteis;
+package modelo;
 
 import java.util.HashSet;
 
