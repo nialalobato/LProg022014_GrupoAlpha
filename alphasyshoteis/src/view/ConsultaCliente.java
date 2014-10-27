@@ -7,22 +7,32 @@
 package view;
 
 import controle.GestorBanco;
+import java.sql.Connection;
+import java.sql.Driver;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 /**
  *
  * @author Administrador
  */
 public class ConsultaCliente extends javax.swing.JDialog {
-    private GestorBanco bd;
 
+    GestorBanco bd;
     /**
      * Creates new form CadastroCliente
      */
     public ConsultaCliente(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        bd=new GestorBanco();
-        
         initComponents();
+        bd = new GestorBanco();
     }
 
     /**
@@ -36,6 +46,11 @@ public class ConsultaCliente extends javax.swing.JDialog {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         buttonGroup1 = new javax.swing.ButtonGroup();
+        dbalphahoteisPUEntityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("dbalphahoteisPU").createEntityManager();
+        clienteQuery = java.beans.Beans.isDesignTime() ? null : dbalphahoteisPUEntityManager.createQuery("SELECT c FROM Cliente c");
+        clienteList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : clienteQuery.getResultList();
+        clienteQuery1 = java.beans.Beans.isDesignTime() ? null : dbalphahoteisPUEntityManager.createQuery("SELECT c FROM Cliente c");
+        clienteList1 = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : clienteQuery1.getResultList();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -45,13 +60,12 @@ public class ConsultaCliente extends javax.swing.JDialog {
         jTable1 = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextNome = new javax.swing.JTextField();
-        jTextCPF = new javax.swing.JTextField();
-        jButtonPesquisar = new javax.swing.JButton();
-        jButtonEditar = new javax.swing.JButton();
-        jButtonExcluir = new javax.swing.JButton();
-        jButtonSair = new javax.swing.JButton();
-        jButtonHospedar = new javax.swing.JButton();
+        jTextFieldCliente = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -79,57 +93,54 @@ public class ConsultaCliente extends javax.swing.JDialog {
                 .addContainerGap(37, Short.MAX_VALUE))
         );
 
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
         jLabel14.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(0, 4, 98));
         jLabel14.setText("Cosulta de Clientes");
 
         jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/config/imagens/imagem-clientes.png"))); // NOI18N
 
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
         jScrollPane1.setViewportView(jTable1);
 
         jLabel2.setText("Nome");
 
         jLabel3.setText("CPF");
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jTable1, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.nome}"), jTextNome, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jTable1, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.nome}"), jTextFieldCliente, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
-        jTextNome.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextNomeActionPerformed(evt);
-            }
-        });
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jTable1, org.jdesktop.beansbinding.ELProperty.create("${selectedElement_IGNORE_ADJUSTING.cpf}"), jTextCPF, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jTable1, org.jdesktop.beansbinding.ELProperty.create("${selectedElement_IGNORE_ADJUSTING.cpf}"), jTextField2, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
-        jButtonPesquisar.setText("Pesquisar");
-        jButtonPesquisar.addActionListener(new java.awt.event.ActionListener() {
+        jButton1.setText("Pesquisar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonPesquisarActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
 
-        jButtonEditar.setText("Editar");
+        jButton2.setText("Editar");
 
-        jButtonExcluir.setText("Excluir");
-        jButtonExcluir.addActionListener(new java.awt.event.ActionListener() {
+        jButton3.setText("Excluir");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonExcluirActionPerformed(evt);
+                jButton3ActionPerformed(evt);
             }
         });
 
-        jButtonSair.setText("Sair");
-        jButtonSair.addActionListener(new java.awt.event.ActionListener() {
+        jButton4.setText("Sair");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonSairActionPerformed(evt);
-            }
-        });
-
-        jButtonHospedar.setText("Hospedar");
-        jButtonHospedar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonHospedarActionPerformed(evt);
+                jButton4ActionPerformed(evt);
             }
         });
 
@@ -148,32 +159,33 @@ public class ConsultaCliente extends javax.swing.JDialog {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jButtonPesquisar)
+                                .addComponent(jButton1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButtonEditar)
+                                .addComponent(jButton2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButtonExcluir)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButtonHospedar)
+                                .addComponent(jButton3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButtonSair))
+                                .addComponent(jButton4))
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jTextNome, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
-                                .addComponent(jTextCPF)))))
+                                .addComponent(jTextFieldCliente, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+                                .addComponent(jTextField2)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel14)
-                    .addComponent(jLabel15))
-                .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel14)
+                        .addGap(25, 25, 25))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel15)
+                        .addContainerGap())))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(34, 34, 34)
                         .addComponent(jLabel14)
-                        .addGap(26, 26, 26)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel15))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
@@ -181,18 +193,17 @@ public class ConsultaCliente extends javax.swing.JDialog {
                         .addGap(38, 38, 38)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(jTextNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTextFieldCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
-                            .addComponent(jTextCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(9, 9, 9)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButtonPesquisar)
-                            .addComponent(jButtonEditar)
-                            .addComponent(jButtonExcluir)
-                            .addComponent(jButtonSair)
-                            .addComponent(jButtonHospedar))))
+                            .addComponent(jButton1)
+                            .addComponent(jButton2)
+                            .addComponent(jButton3)
+                            .addComponent(jButton4))))
                 .addContainerGap(74, Short.MAX_VALUE))
         );
 
@@ -234,29 +245,33 @@ public class ConsultaCliente extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSairActionPerformed
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         new alphasyshoteis.Alphasyshoteis();  //nome seria a classe principal que vc quer voltar  
         dispose();
-    }//GEN-LAST:event_jButtonSairActionPerformed
+    }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         
-    }//GEN-LAST:event_jButtonExcluirActionPerformed
+    }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jButtonHospedarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonHospedarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonHospedarActionPerformed
-
-    private void jButtonPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPesquisarActionPerformed
-        bd.buscarClientes(jTextNome.getText(), jTextCPF.getText());
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        Cliente c1;
+        try {
         
-    }//GEN-LAST:event_jButtonPesquisarActionPerformed
+            c1 = bd.ConsultaCliente(jTextFieldCliente.getText());
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setNumRows(0);
+            model.addRow(new Object[]{c1.getNome(), c1.getCpf(), c1.getEmail(), c1.getCelular(),c1.getTelefone()});
+        
+        } catch (SQLException ex) {
+            Logger.getLogger(ConsultaCliente.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ConsultaCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
-    private void jTextNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextNomeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextNomeActionPerformed
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -302,11 +317,15 @@ public class ConsultaCliente extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JButton jButtonEditar;
-    private javax.swing.JButton jButtonExcluir;
-    private javax.swing.JButton jButtonHospedar;
-    private javax.swing.JButton jButtonPesquisar;
-    private javax.swing.JButton jButtonSair;
+    private java.util.List<view.Cliente> clienteList;
+    private java.util.List<view.Cliente> clienteList1;
+    private javax.persistence.Query clienteQuery;
+    private javax.persistence.Query clienteQuery1;
+    private javax.persistence.EntityManager dbalphahoteisPUEntityManager;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
@@ -317,9 +336,8 @@ public class ConsultaCliente extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextCPF;
-    private javax.swing.JTextField jTextNome;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextFieldCliente;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
-
 }
