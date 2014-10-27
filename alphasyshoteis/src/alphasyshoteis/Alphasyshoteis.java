@@ -3,6 +3,7 @@ package alphasyshoteis;
 import view.Principal;
 
 public class Alphasyshoteis {
+
     /**
      * @param args the command line arguments
      */
@@ -10,5 +11,5 @@ public class Alphasyshoteis {
         // TODO code application logic here 
         Principal principal = new Principal();
         principal.setVisible(true);
-    }   
+    }
 }
